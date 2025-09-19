@@ -1,14 +1,11 @@
-
 import { useState } from "react";
-import Button from "./../Button.jsx";
-import { useSelector, useDispatch } from "react-redux";
+import Button from "../Button.jsx"; 
 import { Link } from "react-router-dom";
-import { deleteJob } from "../../../redux/reducers/job/jobAction.jsx";
 
-const JobCard = ({ job }) => {
+const JobCard = ({ job, user, onDelete, onUpdate, onApply }) => {
   const [hover, setHover] = useState(false);
-  const user = useSelector((state) => state.user.user);
-  const dispatch = useDispatch();
+
+  const isOwner = user?._id === job.postedBy?._id; 
 
   const styles = {
     card: {
@@ -36,18 +33,6 @@ const JobCard = ({ job }) => {
     buttonContainer: { display: "flex", gap: "10px", marginTop: "6px", flexWrap: "wrap" },
   };
 
-  const deleteJobHandler = async (id) => {
-    await dispatch(deleteJob(id));
-  };
-
-  const applyJobHandler = async () => {
-    if (!user) {
-      return alert("Please login first to apply for this job.");
-    }
-
-    alert("Applied for job successfully!");
-  };
-
   return (
     <div
       style={styles.card}
@@ -56,15 +41,19 @@ const JobCard = ({ job }) => {
     >
       <div>
         <div style={styles.title}>{job.title}</div>
-        <div style={styles.company}>{job.company} - {job.location}</div>
+        <div style={styles.company}>
+          {job.company} - {job.location}
+        </div>
         <div style={styles.infoRow}>
           <span>Salary: {job.salary}</span>
           <span style={{ textTransform: "capitalize" }}>{job.jobType}</span>
         </div>
         <div style={styles.divider}></div>
         <div style={styles.skillsContainer}>
-          {job.skillsRequired.map((skill, index) => (
-            <span style={styles.badge} key={index}>{skill}</span>
+          {job.skillsRequired?.map((skill, index) => (
+            <span style={styles.badge} key={index}>
+              {skill}
+            </span>
           ))}
         </div>
         <div style={styles.postedBy}>Posted by: {job.postedBy?.name || "Unknown"}</div>
@@ -72,15 +61,16 @@ const JobCard = ({ job }) => {
 
       <div style={styles.buttonContainer}>
         <Link to={`/jobdetails/${job._id}`}>
-          <Button variant="primary" size="medium">View Details</Button>
+          <Button variant="primary">View Details</Button>
         </Link>
 
-        {user?._id === job.postedBy?._id ? (
-          <Button onClick={() => deleteJobHandler(job._id)}>DELETE</Button>
+        {isOwner ? (
+          <>
+            <Button onClick={() => onUpdate?.(job)}>UPDATE</Button>
+            <Button onClick={() => onDelete?.(job)}>DELETE</Button>
+          </>
         ) : (
-          <Button variant="secondary" size="medium" onClick={applyJobHandler}>
-            Apply
-          </Button>
+          <Button onClick={() => onApply?.(job)}>APPLY</Button>
         )}
       </div>
     </div>

@@ -9,6 +9,9 @@ export const USER_LOGIN_FAIL       = "user/login_fail";
 
 export const USER_LOGOUT           = "user/logout";
 
+export const USER_CREATE_REQUEST = "user_create_request";
+export const USER_CREATE_SUCCESS = "user_create_success";
+export const USER_CREATE_FAIL = "user_create_fail";
 
 export const USER_FETCH_ALL_REQUEST = "user/fetch_all_request";
 export const USER_FETCH_ALL_SUCCESS = "user/fetch_all_success";
@@ -42,3 +45,15 @@ export const USER_VERIFY_OTP_FAIL    = "user/verify_otp_fail";
 export const USER_SET_NEW_PASSWORD_REQUEST = "user/set_new_password_request";
 export const USER_SET_NEW_PASSWORD_SUCCESS = "user/set_new_password_success";
 export const USER_SET_NEW_PASSWORD_FAIL    = "user/set_new_password_fail";
+
+
+export const USER_DEACTIVATE_REQUEST = 'user/deactivate_request';
+export const USER_DEACTIVATE_SUCCESS = "user/deactivate_success";
+export const USER_DEACTIVATE_FAIL = "user/deactivate_fail";
+
+
+export const USER_ACTIVATE_REQUEST = 'user/activate_request';
+export const USER_ACTIVATE_SUCCESS = "user/activate_success";
+export const USER_ACTIVATE_FAIL = "user/activate_fail";
+
+

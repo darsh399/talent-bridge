@@ -36,30 +36,45 @@ const SignUp = () => {
 
   const formHandler = async (e) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.mobileNo || !formData.password || !formData.role) {
+      setNotif({ message: "All fields are required", type: "error" });
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setNotif({ message: "Passwords do not match", type: "error" });
       return;
     }
-    try {
-      await dispatch(addUserAction(formData));
-      setNotif({ message: "Registration successful!", type: "success" });
+
+   const res = await dispatch(addUserAction(formData));
+
+   setFormData({ name: "",
+    email: "",
+    mobileNo: "",
+    password: "",
+    confirmPassword: "",
+    role: "",
+    isPasswordVisible: false,
+  })
+  };
+
+  useEffect(() => {
+    if (user) navigate("/dashboard");
+    if (error) setNotif({ message: error, type: "error" });
+    if (message) {
+      setNotif({ message, type: "success" });
       setFormData({
         name: "",
         email: "",
         mobileNo: "",
         password: "",
-        role: "user",
         confirmPassword: "",
+        role: "",
         isPasswordVisible: false,
       });
-    } catch (err) {
-      setNotif({ message: "Something went wrong", type: "error" });
     }
-  };
-
-  useEffect(() => {
-    if (user) navigate("/dashboard");
-  }, [user, navigate]);
+  }, [user, error, message, navigate]);
 
   const styles = {
     container: {
@@ -93,6 +108,15 @@ const SignUp = () => {
       width: "100%",
       boxSizing: "border-box",
     },
+    select: {
+      padding: "14px 16px",
+      fontSize: "16px",
+      borderRadius: "10px",
+      border: "1px solid #ccc",
+      outline: "none",
+      width: "100%",
+      backgroundColor: "#fff",
+    },
     checkboxContainer: {
       display: "flex",
       alignItems: "center",
@@ -112,6 +136,8 @@ const SignUp = () => {
       transition: "all 0.3s ease",
       background: "linear-gradient(to right, #6a11cb, #2575fc)",
       color: "#fff",
+      overflow: "hidden",
+      position: "relative",
     },
     linkText: {
       marginTop: "20px",
@@ -126,87 +152,128 @@ const SignUp = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Sign Up</h2>
-      <form style={styles.form} onSubmit={formHandler}>
-        <Input
-          style={styles.input}
-          type="text"
-          name="name"
-          value={formData.name}
-          placeholder="Enter Name"
-          onChange={inputHandler}
-        />
-        <Input
-          style={styles.input}
-          type="email"
-          name="email"
-          value={formData.email}
-          placeholder="Enter Email"
-          onChange={inputHandler}
-        />
-        <Input
-          style={styles.input}
-          type="text"
-          name="mobileNo"
-          value={formData.mobileNo}
-          placeholder="Enter Mobile Number"
-          onChange={inputHandler}
-        />
-        <select
-          name="role"
-          value={formData.role}
-          onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-          style={{ padding: "10px", borderRadius: "8px", marginTop: "10px" }}
-        >
-          <option value="">Select Role</option>
-          <option value="hr">HR</option>
-          <option value="user">User</option>
-        </select>
-        <Input
-          style={styles.input}
-          type={formData.isPasswordVisible ? "text" : "password"}
-          name="password"
-          value={formData.password}
-          placeholder="Enter Password"
-          onChange={inputHandler}
-        />
-        <Input
-          style={styles.input}
-          type={formData.isPasswordVisible ? "text" : "password"}
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          placeholder="Confirm Password"
-          onChange={inputHandler}
-        />
-        <label style={styles.checkboxContainer}>
-          <input
-            type="checkbox"
-            checked={formData.isPasswordVisible}
-            onChange={passwordVisibleHandler}
+    <>
+      {/* Ripple effect CSS */}
+      <style>{`
+        .ripple-button {
+          position: relative;
+          overflow: hidden;
+        }
+        .ripple-button::after {
+          content: "";
+          position: absolute;
+          width: 100px;
+          height: 100px;
+          background: rgba(255,255,255,0.5);
+          display: block;
+          border-radius: 50%;
+          opacity: 0;
+          pointer-events: none;
+          transform: scale(0);
+          animation: ripple 0.6s linear;
+        }
+        .ripple-button:active::after {
+          animation: ripple 0.6s linear;
+          opacity: 1;
+          transform: scale(1);
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%) scale(0);
+        }
+        @keyframes ripple {
+          to {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(4);
+          }
+        }
+      `}</style>
+
+      <div style={styles.container}>
+        <h2 style={styles.title}>Sign Up</h2>
+        <form style={styles.form} onSubmit={formHandler}>
+          <Input
+            style={styles.input}
+            type="text"
+            name="name"
+            value={formData.name}
+            placeholder="Enter Name"
+            onChange={inputHandler}
           />
-          Show Password
-        </label>
-        <Button
-          type="submit"
-          style={styles.button}
-          fullWidth
-          disabled={loading}
-        >
-          {loading ? "Signing Up..." : "SIGN UP"}
-        </Button>
-      </form>
-      <p style={styles.linkText}>
-        Already have an account? <Link to="/login" style={styles.link}>Log In</Link>
-      </p>
-      {notif && (
-        <Notification
-          message={notif.message}
-          type={notif.type}
-          onClose={() => setNotif(null)}
-        />
-      )}
-    </div>
+          <Input
+            style={styles.input}
+            type="email"
+            name="email"
+            value={formData.email}
+            placeholder="Enter Email"
+            onChange={inputHandler}
+          />
+          <Input
+            style={styles.input}
+            type="text"
+            name="mobileNo"
+            value={formData.mobileNo}
+            placeholder="Enter Mobile Number"
+            onChange={inputHandler}
+          />
+          <select
+            name="role"
+            value={formData.role}
+            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+            style={styles.select}
+          >
+            <option value="">Select Role</option>
+            <option value="hr">HR</option>
+            <option value="user">User</option>
+          </select>
+          <Input
+            style={styles.input}
+            type={formData.isPasswordVisible ? "text" : "password"}
+            name="password"
+            value={formData.password}
+            placeholder="Enter Password"
+            onChange={inputHandler}
+          />
+          <Input
+            style={styles.input}
+            type={formData.isPasswordVisible ? "text" : "password"}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            placeholder="Confirm Password"
+            onChange={inputHandler}
+          />
+          <label style={styles.checkboxContainer}>
+            <input
+              type="checkbox"
+              checked={formData.isPasswordVisible}
+              onChange={passwordVisibleHandler}
+            />
+            Show Password
+          </label>
+          <Button
+            type="submit"
+            style={styles.button}
+            className="ripple-button"
+            fullWidth
+            disabled={loading}
+          >
+            {loading ? "Signing Up..." : "SIGN UP"}
+          </Button>
+        </form>
+        <p style={styles.linkText}>
+          Already have an account?{" "}
+          <Link to="/login" style={styles.link}>
+            Log In
+          </Link>
+        </p>
+        {notif && (
+          <Notification
+            message={notif.message}
+            type={notif.type}
+            onClose={() => setNotif(null)}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

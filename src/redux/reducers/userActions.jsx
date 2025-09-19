@@ -9,7 +9,10 @@ import {
   changePassword,
   forgotPassword,
   verifyOtp,
-  setNewPassword
+  setNewPassword,
+  createUser,
+  activateUser,
+  suspendUser
 } from "../../API/userApi";
 
 import {
@@ -44,6 +47,15 @@ import {
   USER_SET_NEW_PASSWORD_REQUEST,
   USER_SET_NEW_PASSWORD_SUCCESS,
   USER_SET_NEW_PASSWORD_FAIL,
+  USER_CREATE_FAIL,
+  USER_CREATE_REQUEST,
+  USER_CREATE_SUCCESS,
+  USER_ACTIVATE_FAIL,
+  USER_ACTIVATE_REQUEST,
+  USER_ACTIVATE_SUCCESS,
+  USER_DEACTIVATE_FAIL,
+  USER_DEACTIVATE_REQUEST,
+  USER_DEACTIVATE_SUCCESS
 } from "./types";
 
 export const addUserAction = (userData) => async (dispatch) => {
@@ -160,3 +172,40 @@ export const setNewPasswordAction = (data) => async (dispatch) => {
     dispatch({ type: USER_SET_NEW_PASSWORD_FAIL, payload: error.message || error });
   }
 };
+
+export const userDeactivate = (id) =>async (dispatch) =>{
+  try{
+    console.log('in deactivateeeeeeeee')
+      dispatch({type: USER_DEACTIVATE_REQUEST});
+      const res = await  suspendUser(id);
+       console.log('afteer deactivate activate', id)
+      dispatch({type: USER_DEACTIVATE_SUCCESS, payload:res});
+  }catch(error){
+    dispatch({type: USER_DEACTIVATE_FAIL})
+  }
+}
+
+export const userActivate = (id) => async (dispatch) => {
+  try{
+    console.log('before activate')
+    dispatch({type: USER_ACTIVATE_REQUEST});
+    const res = await activateUser(id);
+     console.log('after activate')
+    dispatch({type: USER_ACTIVATE_SUCCESS, payload: res})
+
+  }catch(error){
+    dispatch({type: USER_ACTIVATE_FAIL});
+  }
+}
+
+
+export const createUserData = (id, newData) => async(dispatch)=> {
+  try{
+        dispatch({type: USER_CREATE_REQUEST});
+        const res = await createUser(id, newData);
+        dispatch({type: USER_CREATE_SUCCESS, payload: newData})
+  }catch(error){
+    dispatch({type: USER_CREATE_FAIL, payload:error.message || error});
+  }
+
+}

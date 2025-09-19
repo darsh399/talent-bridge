@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { NavLink } from "react-router-dom";
 
 const AdminDashBoard = () => {
   const [users, setUsers] = useState([]);
@@ -54,20 +55,19 @@ const AdminDashBoard = () => {
         <p style={styles.text}>Here’s an overview of your platform’s activities.</p>
       </div>
 
-      {/* Stats Cards */}
       <div style={styles.cards}>
-        <div style={{ ...styles.card, background: "linear-gradient(135deg, #6a11cb, #2575fc)" }}>
+        <NavLink to='/get-all-users' style={{ ...styles.card, background: "linear-gradient(135deg, #6a11cb, #2575fc)", textDecoration: "none" }}>
           <h3 style={styles.cardTitle}>Total Users</h3>
           <p style={styles.cardCount}>{users.length}</p>
-        </div>
-        <div style={{ ...styles.card, background: "linear-gradient(135deg, #fc5c7d, #6a82fb)" }}>
+        </NavLink>
+        <NavLink style={{ ...styles.card, background: "linear-gradient(135deg, #fc5c7d, #6a82fb)", textDecoration: "none" }}>
           <h3 style={styles.cardTitle}>Total Jobs</h3>
           <p style={styles.cardCount}>{jobs.length}</p>
-        </div>
-        <div style={{ ...styles.card, background: "linear-gradient(135deg, #43cea2, #185a9d)" }}>
+        </NavLink>
+        <NavLink style={{ ...styles.card, background: "linear-gradient(135deg, #43cea2, #185a9d)", textDecoration: "none"}}>
           <h3 style={styles.cardTitle}>Active HRs</h3>
           <p style={styles.cardCount}>{activeHRs}</p>
-        </div>
+        </NavLink>
       </div>
 
      

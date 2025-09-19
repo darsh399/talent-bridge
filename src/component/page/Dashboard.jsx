@@ -33,13 +33,6 @@ const Dashboard = () => {
       marginBottom: "30px",
       fontWeight: "500",
     },
-    buttonContainer: {
-      display: "flex",
-      gap: "15px",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      marginBottom: "30px",
-    },
     button: {
       padding: "12px 20px",
       fontSize: "16px",
@@ -72,13 +65,7 @@ const Dashboard = () => {
 
   const renderUserOptions = () => (
     <>
-      <div style={styles.buttonContainer}>
-        <button style={styles.button}>Browse Jobs</button>
-        <button style={styles.button}>My Applications</button>
-        <button style={styles.button}>Profile Settings</button>
-      </div>
-
-      {/* Jobs Section */}
+     
       <div style={{ width: "100%", marginTop: "30px" }}>
         <h2 style={styles.sectionTitle}>Available Jobs</h2>
         <UserDashBoard />

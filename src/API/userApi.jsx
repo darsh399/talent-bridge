@@ -19,7 +19,9 @@ export const fetchCurrentUser = () => handleRequest(API.get("/me"));
 export const registerUser = (user) => handleRequest(API.post("/register", user));
 export const loginUser = (user) => handleRequest(API.post("/login", user));
 export const logoutUser = () => handleRequest(API.post("/logout"));
-
+export const createUser = (id, newData) => handleRequest(API.post(`/createuser/${id}`, newData));
+export const suspendUser = (id) => handleRequest(API.put(`/deactivateuser/${id}`))
+export const activateUser = (id) => handleRequest(API.put(`/activateuser/${id}`))
 
 export const getAllUsers = () => handleRequest(API.get("/"));
 export const getUserById = (id) => handleRequest(API.get(`/user/${id}`));

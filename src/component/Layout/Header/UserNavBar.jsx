@@ -1,7 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import Input from "../../common/Input.jsx";
 import { useState } from "react";
-import Button from "../../common/Button.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getJobByFilter } from "../../../redux/reducers/job/jobAction.jsx";
 import { logoutUserAction } from "../../../redux/reducers/userActions.jsx";
@@ -58,8 +57,9 @@ const UserNavBar = () => {
       {user?.role === "user" && (
         <>
           {renderSearch("Search job")}
-          <NavLink to="/profile" style={linkStyle}>Profile</NavLink>
-          <NavLink to={`/update-user/${user._id}`} style={linkStyle}>Update Profile</NavLink>
+          <NavLink to={`/dashboard`} style={linkStyle}>Home</NavLink>
+          <NavLink to={`/createuser/${user.id}`} style={linkStyle}>Profile</NavLink>
+          <NavLink to={`/update-user/${user.id}`} style={linkStyle}>Update Profile</NavLink>
           <NavLink to="/applied-jobs" style={linkStyle}>Applied Jobs</NavLink>
           <span onClick={logoutHandler} style={{ ...styles.link, cursor: "pointer" }}>Logout</span>
         </>
@@ -78,9 +78,9 @@ const UserNavBar = () => {
 
       {user?.role === "admin" && (
         <>
-          <NavLink to="/admin/dashboard" style={linkStyle}>Dashboard</NavLink>
-          <NavLink to="/admin/users" style={linkStyle}>Manage Users</NavLink>
-          <NavLink to="/admin/settings" style={linkStyle}>Settings</NavLink>
+          <NavLink to="/dashboard" style={linkStyle}>Dashboard</NavLink>
+          <NavLink to='/get-all-users' style={linkStyle}>Manage Users</NavLink>
+          <NavLink to={`/update-user/${user._id}`}style={linkStyle}>Update Profile</NavLink>
           <span onClick={logoutHandler} style={{ ...styles.link, cursor: "pointer" }}>Logout</span>
         </>
       )}

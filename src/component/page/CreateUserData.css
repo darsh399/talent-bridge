@@ -1,0 +1,126 @@
+.profile-page {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 1350px;
+  background: #ffffff;
+  padding: 50px 60px;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 25px;
+}
+
+.form-section {
+  border: none;
+  padding: 0;
+  margin-bottom: 25px;
+}
+
+.form-section legend {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 14px;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #f9fafb;
+  transition: all 0.3s ease;
+  margin: 10px 0;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #2563eb;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+  outline: none;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 16px;
+  width: 100%;
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #1d4ed8, #1e40af);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.4);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 30px 20px;
+  }
+  .input-group {
+    grid-template-columns: 1fr;
+  }
+}

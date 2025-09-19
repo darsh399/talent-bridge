@@ -22,7 +22,7 @@ export const addJob = (newJob) => async (dispatch) => {
     dispatch({ type: JOB_ADD_REQUEST });
     const data = await addJobApi(newJob); 
     dispatch({ type: JOB_ADD_SUCCESS, payload: data.job });
-   return data;
+    return data;
   } catch (error) {
     dispatch({
       type: JOB_ADD_FAIL,
@@ -36,8 +36,9 @@ export const deleteJob = (id) => async (dispatch) => {
   try {
     dispatch({ type: JOB_DELETE_REQUEST });
 
-    await deleteJobApi(id); 
+    const data = await deleteJobApi(id); 
     dispatch({ type: JOB_DELETE_SUCCESS, payload: id });
+    return data;
   } catch (error) {
     dispatch({
       type: JOB_DELETE_FAIL,
@@ -46,18 +47,21 @@ export const deleteJob = (id) => async (dispatch) => {
   }
 };
 
-
 export const updateJob = (id, updatedJob) => async (dispatch) => {
   try {
     dispatch({ type: JOB_UPDATE_REQUEST });
 
     const data = await updateJobApi(id, updatedJob); 
     dispatch({ type: JOB_UPDATE_SUCCESS, payload: data.job });
+
+  
+    return { success: true, job: data.job };
   } catch (error) {
     dispatch({
       type: JOB_UPDATE_FAIL,
       payload: error.message || "Something went wrong",
     });
+    return { success: false, message: error.message };
   }
 };
 
@@ -68,6 +72,7 @@ export const getAllJobs = () => async (dispatch) => {
 
     const data = await getAllJobsApi(); 
     dispatch({ type: JOB_GET_ALL_SUCCESS, payload: data });
+    return data;
   } catch (error) {
     dispatch({
       type: JOB_GET_ALL_FAIL,
@@ -80,7 +85,7 @@ export const getJobByFilter = (data) => async (dispatch) => {
      try{
       dispatch({type:JOB_GETBYSEARCH_SUCCESS, payload:data});
       
-
+      
      }catch(error){
       dispatch({type:JOB_GETBYSEARCH_FAIL})
      }

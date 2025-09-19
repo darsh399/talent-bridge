@@ -13,6 +13,9 @@ import UpdateProfile from "../page/UpdateProfile";
 import AuthPage from "../page/AuthPage";
 import AddJob from "../common/job/pages/AddJob";
 import JobDetails from "../page/JobDetails";
+import UsersPage from "../page/Admin/AllUsers";
+import CreateUserData from "../page/CreateUserData";
+import UserDetail from "../page/UserDetail";
 const routes = createBrowserRouter([
     {
         path: '/',
@@ -69,6 +72,18 @@ const routes = createBrowserRouter([
             {
                 path: '/jobdetails/:id',
                 element: <JobDetails/>
+            },
+            {
+                path: '/get-all-users',
+                element: <UsersPage/>
+            },
+            {
+                path: '/createuser/:id',
+                element: <CreateUserData/>
+            },
+            {
+                path: '/user/:id',
+                element: <UserDetail/>
             }
 
 
