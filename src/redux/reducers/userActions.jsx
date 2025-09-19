@@ -175,9 +175,8 @@ export const setNewPasswordAction = (data) => async (dispatch) => {
 
 export const userDeactivate = (id) =>async (dispatch) =>{
   try{
-    console.log('in deactivateeeeeeeee')
       dispatch({type: USER_DEACTIVATE_REQUEST});
-      const res = await  suspendUser(id);
+      const res = await suspendUser(id);
        console.log('afteer deactivate activate', id)
       dispatch({type: USER_DEACTIVATE_SUCCESS, payload:res});
   }catch(error){

@@ -47,6 +47,7 @@ const initialState = {
   loading: false,
   error: null,
   message: null,
+  selecteduser: null
 };
 
 const userReducer = (state = initialState, action) => {
@@ -58,15 +59,17 @@ const userReducer = (state = initialState, action) => {
     case USER_FETCH_ALL_REQUEST:
     case USER_FETCH_BY_ID_REQUEST:
     case USER_UPDATE_REQUEST:
-    case USER_DELETE_REQUEST:
     case USER_CHANGE_PASSWORD_REQUEST:
     case USER_FORGOT_PASSWORD_REQUEST:
     case USER_VERIFY_OTP_REQUEST:
     case USER_SET_NEW_PASSWORD_REQUEST:
+      return { ...state, loading: true, error: null, message: null };
+    
+    case USER_DELETE_REQUEST:
     case USER_ACTIVATE_REQUEST:
     case USER_DEACTIVATE_REQUEST:
-      return { ...state, loading: true, error: null, message: null };
-
+      return { ...state, error: null, message: null };
+    
     case USER_CREATE_SUCCESS:
     case USER_REGISTER_SUCCESS:
       return {
@@ -86,7 +89,7 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: false, users: action.payload };
 
     case USER_FETCH_BY_ID_SUCCESS:
-      return { ...state, loading: false, user: action.payload };
+      return { ...state, loading: false, selecteduser: action.payload };
 
     case USER_UPDATE_SUCCESS:
       return {
@@ -97,28 +100,32 @@ const userReducer = (state = initialState, action) => {
           currUser._id === action.payload._id ? action.payload : currUser
         ),
       };
+case USER_ACTIVATE_SUCCESS:
+case USER_DEACTIVATE_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    users: state.users.map(u =>
+      u._id === action.payload._id ? action.payload : u
+    ),
+    selecteduser:
+      state.selecteduser && state.selecteduser._id === action.payload._id
+        ? action.payload
+        : state.selecteduser,
+  };
 
-    case USER_DEACTIVATE_SUCCESS:
-    case USER_ACTIVATE_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        users: state.users.map((u) =>
-          u._id === action.payload._id ? action.payload : u
-        ),
-        user:
-          state.user && state.user._id === action.payload._id
-            ? action.payload
-            : state.user,
-      };
+
+
 
     case USER_DELETE_SUCCESS:
       return {
         ...state,
         loading: false,
-        user: state.user && state.user._id === action.payload._id ? null : state.user,
-        users: state.users.filter((u) => u._id !== action.payload._id),
+        users: state.users.filter((u) => u._id !== action.payload),
+       selecteduser:
+      state.selecteduser && state.selecteduser._id === action.payload
+        ? null
+        : state.selecteduser,
       };
 
     case USER_CHANGE_PASSWORD_SUCCESS:
@@ -153,3 +160,8 @@ const userReducer = (state = initialState, action) => {
 };
 
 export default userReducer;
+
+
+
+
+
